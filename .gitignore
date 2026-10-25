@@ -50,6 +50,7 @@ faiss_index/
 .milvus/
 __pycache__/
 .cache/
+graphify-out/cache/
 
 # Document ingestion folders (untracked source data)
 data/raw/
@@ -80,3 +81,4 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
+*.mov

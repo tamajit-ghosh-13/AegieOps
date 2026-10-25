@@ -44,11 +44,29 @@ class LiveApplier:
             ActionType.rollback: self._rollback,
             ActionType.toggle_feature_flag: self._toggle_flag,
             ActionType.scale_out: self._scale_out,
+            ActionType.drain_connections: self._drain_connections,
             ActionType.patch_code: self._patch_code,
         }.get(action.action)
         if handler is None:
             raise ValueError(f"no live applier for action: {action.action.value}")
         handler(action)
+
+    def rollback_action(self, action: ProposedAction, previous_state: dict | None = None) -> None:
+        """Automated rollback safeguard: undoes an action if post-recovery verification fails."""
+        prev = previous_state or {}
+        if action.action is ActionType.scale_out:
+            revert_workers = prev.get("workers", 2)
+            httpx.post(f"{self._base_url}/scale", json={"workers": revert_workers}, timeout=HTTP_TIMEOUT_S)
+        elif action.action is ActionType.toggle_feature_flag and action.flag_name:
+            revert_flag = prev.get("flag_enabled", True)
+            httpx.post(f"{self._base_url}/flags/{action.flag_name}", json={"enabled": revert_flag}, timeout=HTTP_TIMEOUT_S)
+        elif action.action is ActionType.restart_service:
+            self._restart(action)
+        elif action.action is ActionType.drain_connections:
+            self._drain_connections(action)
+
+    def _drain_connections(self, action: ProposedAction) -> None:
+        httpx.post(f"{self._base_url}/connections/drain", timeout=HTTP_TIMEOUT_S).raise_for_status()
 
     def _container(self):
         matches = self._docker.containers.list(

@@ -5,12 +5,13 @@ from __future__ import annotations
 import html
 from urllib.parse import quote
 
-from fastapi import FastAPI, Form, HTTPException
+from fastapi import Cookie, FastAPI, Form, Header, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from agent.state import HitlChoice
 from hitl.gate import ApprovalGate
 from hitl.registry import DurableFixRegistry
+from dashboard.cockpit import render_cockpit_html
 
 _DECIDABLE = {HitlChoice.approve.value, HitlChoice.reject.value}
 
@@ -81,6 +82,10 @@ def _brief_card(brief: dict) -> str:
         <h3>{_esc(brief['title'])} <small>({iid})</small></h3>
         <p><b>Root cause:</b> {_esc(triage.get('root_cause', 'n/a'))}
            (confidence: {_esc(triage.get('confidence', 'n/a'))})</p>
+        <p><b>What broke:</b> {_esc(triage.get('what_broke', 'n/a'))}</p>
+        <p><b>Why it broke:</b> {_esc(triage.get('why_it_broke', 'n/a'))}</p>
+        <p><b>What changed:</b> {_esc(triage.get('what_changed_recently', 'n/a'))}</p>
+        <p><b>Blast radius:</b> <span style="font-weight:bold;color:#b91c1c;">{_esc(triage.get('blast_radius', 'low')).upper()}</span></p>
         <p><b>Mitigation:</b> {_esc(mitigation['action'])} &mdash; {_esc(mitigation['reason'])}</p>
         {_evidence_table(brief['evidence'])}
         {_policy_block(brief['policy'])}
@@ -121,22 +126,56 @@ def create_hitl_app(gate: ApprovalGate, registry: DurableFixRegistry) -> FastAPI
         open_fixes = registry.list_open()
         fixes_html = "".join(_durable_fix_row(e) for e in open_fixes) or "<p>No open durable fixes</p>"
 
-        return f"""
-        <html><body>
-            <h2>Pending Approvals</h2>
-            {cards}
-            <h2>Open durable fixes</h2>
-            {fixes_html}
-        </body></html>
-        """
+        return render_cockpit_html(cards_html=cards, fixes_html=fixes_html)
 
     @app.post("/decision/{incident_id}")
-    async def post_decision(incident_id: str, choice: str = Form(...), note: str = Form("")):
+    async def post_decision(
+        incident_id: str,
+        choice: str = Form(...),
+        note: str = Form(""),
+        authorization: str | None = Header(None),
+        x_operator_token: str | None = Header(None, alias="X-Operator-Token"),
+        access_token: str | None = Cookie(None),
+    ):
         if choice not in _DECIDABLE:
             raise HTTPException(status_code=400, detail="choice must be approve or reject")
         if gate.get_context(incident_id) is None:
             raise HTTPException(status_code=404, detail="no pending approval for this incident")
-        gate.resolve(incident_id, HitlChoice(choice), note=note or None)
+
+        token = None
+        if authorization and authorization.lower().startswith("bearer "):
+            token = authorization[7:].strip()
+        elif x_operator_token:
+            token = x_operator_token
+        elif access_token:
+            token = access_token
+
+        decided_by = "local-ui"
+        if token:
+            from auth.security import decode_access_token
+            from auth.service import get_auth_service
+
+            payload = decode_access_token(token)
+            if not payload or "sub" not in payload:
+                raise HTTPException(status_code=401, detail="Invalid operator token")
+
+            auth_svc = get_auth_service()
+            user = auth_svc.get_user_by_id(payload["sub"])
+            if not user or not user.is_active:
+                raise HTTPException(status_code=401, detail="Operator user account not found or inactive")
+
+            brief = gate.get_brief(incident_id) or {}
+            mitigation = brief.get("mitigation") or {}
+            action_name = mitigation.get("action", "")
+            blast_radius = (brief.get("triage") or {}).get("blast_radius", "low")
+
+            allowed, reason = auth_svc.can_approve(user, action=action_name, blast_radius=blast_radius)
+            if not allowed:
+                raise HTTPException(status_code=403, detail=reason)
+
+            decided_by = f"{user.name} <{user.email}> ({user.role.value})"
+
+        gate.resolve(incident_id, HitlChoice(choice), decided_by=decided_by, note=note or None)
         return RedirectResponse(url="/", status_code=303)
 
     @app.post("/promote/{incident_id}")
@@ -160,5 +199,11 @@ def create_hitl_app(gate: ApprovalGate, registry: DurableFixRegistry) -> FastAPI
     @app.get("/api/durable-fixes")
     async def api_durable_fixes():
         return registry.list_open()
+
+    from observability.router import router as obs_router
+    app.include_router(obs_router)
+
+    from auth.router import router as auth_router
+    app.include_router(auth_router)
 
     return app

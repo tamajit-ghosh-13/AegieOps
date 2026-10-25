@@ -14,7 +14,7 @@ from typing import Any, Callable
 
 from pydantic import ValidationError
 
-from agent.actions import CATALOG, ActionType, ProposedAction
+from agent.actions import CATALOG, ActionType, BlastRadius, ProposedAction
 from agent.state import PolicyDecision, PolicyVerdict, SandboxResult, TriageResult
 
 CONFIDENCE_FLOOR = 0.7
@@ -28,14 +28,19 @@ PROTECTED_PATHS = (
     "stream/", "retrieval/", "sandbox/", "hitl/", "apply/",
 )
 MAX_PATCH_LINES = 80
-KNOWN_TARGETS = frozenset({"mock_app"})
+KNOWN_TARGETS = frozenset({"mock_app", "mock-app"})
 
 _SEVERITY = {PolicyDecision.allow: 0, PolicyDecision.needs_approval: 1, PolicyDecision.block: 2}
 
 
 class PolicyEngine:
-    def __init__(self, clock: Callable[[], float] = time.time) -> None:
+    def __init__(
+        self,
+        clock: Callable[[], float] = time.time,
+        circuit_breaker: Any = None,
+    ) -> None:
         self._clock = clock
+        self._circuit_breaker = circuit_breaker
         self._applies: deque[tuple[str, str, float]] = deque()  # (action, target, ts)
         self._auto_applies: deque[float] = deque()
 
@@ -110,13 +115,37 @@ class PolicyEngine:
         if proposal.action is ActionType.patch_code:
             violations.extend(self._patch_violations(proposal))
 
+        blast_radius = meta.blast_radius
+        if triage and triage.blast_radius is not None:
+            if triage.blast_radius == BlastRadius.high or blast_radius == BlastRadius.high:
+                blast_radius = BlastRadius.high
+            elif triage.blast_radius == BlastRadius.medium and blast_radius != BlastRadius.high:
+                blast_radius = BlastRadius.medium
+
         if not violations:
-            return PolicyVerdict(decision=PolicyDecision.allow, violated_rules=[], reasons=[])
+            risk = (
+                f"Action {proposal.action.value} is reversible with {blast_radius.value} blast radius "
+                f"and triage confidence {confidence:.2f} >= {CONFIDENCE_FLOOR}. Authorized for auto-apply."
+            )
+            return PolicyVerdict(
+                decision=PolicyDecision.allow,
+                violated_rules=[],
+                reasons=[],
+                blast_radius=blast_radius,
+                risk_assessment=risk,
+            )
         decision = max((v[2] for v in violations), key=_SEVERITY.__getitem__)
+        risk = (
+            f"Action {proposal.action.value} requires operator authorization due to: {', '.join(v[0] for v in violations)}."
+            if decision == PolicyDecision.needs_approval
+            else f"Action {proposal.action.value} blocked due to critical safety rule violations: {', '.join(v[0] for v in violations)}."
+        )
         return PolicyVerdict(
             decision=decision,
             violated_rules=[v[0] for v in violations],
             reasons=[f"{v[0]}: {v[1]}" for v in violations],
+            blast_radius=blast_radius,
+            risk_assessment=risk,
         )
 
     def _patch_violations(self, proposal: ProposedAction) -> list[tuple[str, str, PolicyDecision]]:
@@ -137,6 +166,14 @@ class PolicyEngine:
         return out
 
     def _flap_violations(self, proposal: ProposedAction) -> list[tuple[str, str, PolicyDecision]]:
+        if self._circuit_breaker is not None:
+            flapping, reason = self._circuit_breaker.is_service_flapping(
+                proposal.target, action=proposal.action.value, timestamp=self._clock()
+            )
+            if flapping:
+                return [("flap_protection", reason or "Flap protection cooldown active", PolicyDecision.block)]
+            return []
+
         cutoff = self._clock() - FLAP_WINDOW_S
         while self._applies and self._applies[0][2] < cutoff:
             self._applies.popleft()
@@ -152,6 +189,12 @@ class PolicyEngine:
         return []
 
     def _rate_violations(self) -> list[tuple[str, str, PolicyDecision]]:
+        if self._circuit_breaker is not None:
+            tripped, reason = self._circuit_breaker.is_global_circuit_tripped(timestamp=self._clock())
+            if tripped:
+                return [("rate_limit", reason or "Global circuit breaker tripped", PolicyDecision.needs_approval)]
+            return []
+
         cutoff = self._clock() - RATE_WINDOW_S
         while self._auto_applies and self._auto_applies[0] < cutoff:
             self._auto_applies.popleft()
@@ -169,3 +212,5 @@ class PolicyEngine:
         self._applies.append((proposal.action.value, proposal.target, now))
         if decision is PolicyDecision.allow:
             self._auto_applies.append(now)
+        if self._circuit_breaker is not None:
+            self._circuit_breaker.record_action(proposal.target, proposal.action.value, timestamp=now)

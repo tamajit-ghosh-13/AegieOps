@@ -126,6 +126,15 @@ async def set_scale(body: ScaleUpdate):
     return {"workers": SCALE.workers}
 
 
+@app.post("/connections/drain")
+async def drain_connections():
+    """Operational remediation: drain connection pool and clear deadlocks/locks."""
+    deadlock = FAULTS.get(FaultKind.db_deadlock)
+    if deadlock:
+        await deadlock.clear()
+    return {"status": "ok", "drained": True, "active_locks": 0}
+
+
 @app.get("/healthz")
 async def healthz():
     metrics: dict[str, float] = {}
@@ -139,10 +148,61 @@ async def healthz():
     }
 
 
+REQUEST_COUNTS: dict[str, int] = {"work_200": 0, "work_500": 0}
+
+
 @app.get("/work")
 async def work():
     error_spike = FAULTS[FaultKind.error_spike]
     assert isinstance(error_spike, ErrorSpikeFault)
     if error_spike.should_fail():
+        REQUEST_COUNTS["work_500"] += 1
         return Response(status_code=500, content="internal error")
+    REQUEST_COUNTS["work_200"] += 1
     return {"status": "ok"}
+
+
+@app.get("/metrics")
+async def prometheus_metrics():
+    """Prometheus standard metrics exposition format (AegisOps Slice 2)."""
+    current_metrics: dict[str, float] = {}
+    for fault in FAULTS.values():
+        current_metrics.update(fault.metric_snapshot())
+
+    latency = current_metrics.get("latency_ms", 50.0)
+    rss_mb = current_metrics.get("rss_mb", 8.0)
+    lock_wait_ms = current_metrics.get("lock_wait_ms", 0.0)
+
+    lines = [
+        "# HELP http_requests_total Total number of HTTP requests processed",
+        "# TYPE http_requests_total counter",
+        f'http_requests_total{{endpoint="/work",status="200"}} {REQUEST_COUNTS["work_200"]}',
+        f'http_requests_total{{endpoint="/work",status="500"}} {REQUEST_COUNTS["work_500"]}',
+        "",
+        "# HELP http_request_duration_ms Current p95 request duration in milliseconds",
+        "# TYPE http_request_duration_ms gauge",
+        f"http_request_duration_ms {latency:.1f}",
+        "",
+        "# HELP app_memory_rss_mb Process resident memory set size in megabytes",
+        "# TYPE app_memory_rss_mb gauge",
+        f"app_memory_rss_mb {rss_mb:.1f}",
+        "",
+        "# HELP app_db_lock_wait_ms Database lock wait time in milliseconds",
+        "# TYPE app_db_lock_wait_ms gauge",
+        f"app_db_lock_wait_ms {lock_wait_ms:.1f}",
+        "",
+        "# HELP app_active_workers Number of active worker processes",
+        "# TYPE app_active_workers gauge",
+        f"app_active_workers {SCALE.workers}",
+    ]
+
+    for name, enabled in FLAGS.all().items():
+        val = 1 if enabled else 0
+        lines.append(f'app_feature_flag_status{{name="{name}"}} {val}')
+
+    for kind, fault in FAULTS.items():
+        val = 1 if fault.is_active() else 0
+        lines.append(f'app_fault_active{{kind="{kind.value}"}} {val}')
+
+    lines.append("")
+    return Response(content="\n".join(lines), media_type="text/plain; version=0.0.4; charset=utf-8")

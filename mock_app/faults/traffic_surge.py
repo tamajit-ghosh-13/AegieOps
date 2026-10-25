@@ -48,6 +48,8 @@ class TrafficSurgeFault(Fault):
             return
 
         latency = self.latency_ms
+        if latency <= DEGRADED_THRESHOLD_MS:
+            return
         severity = Severity.error if latency > DEGRADED_THRESHOLD_MS else Severity.warning
         bucketed = (int(latency) // BUCKET_SIZE_MS) * BUCKET_SIZE_MS
 

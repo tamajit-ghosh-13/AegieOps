@@ -38,6 +38,18 @@ class PrintSink:
               f" attempted={report.attempted_actions}")
         print(f"  retries={report.retries} sandbox_passed={report.sandbox_passed}")
         print(f"  policy={report.policy_decision} hitl={report.hitl_choice}")
+        if report.what_broke:
+            print(f"  what_broke: {report.what_broke}")
+        if report.why_it_broke:
+            print(f"  why_it_broke: {report.why_it_broke}")
+        if report.what_changed_recently:
+            print(f"  what_changed_recently: {report.what_changed_recently}")
+        if report.blast_radius:
+            print(f"  blast_radius: {report.blast_radius.value} affected={report.affected_services}")
+        if report.rollback_strategy:
+            print(f"  rollback_strategy: {report.rollback_strategy}")
+        if report.expected_impact:
+            print(f"  expected_impact: {report.expected_impact}")
         if report.apply_error:
             print(f"  apply_error: {report.apply_error}")
         if report.durable_fix:

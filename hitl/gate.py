@@ -7,6 +7,7 @@ import os
 import time
 
 from agent.state import HitlChoice, HitlDecision
+from audit.ledger import get_incident_ledger
 
 DEFAULT_TTL_S = 600.0
 
@@ -50,16 +51,34 @@ class ApprovalGate:
         fut: asyncio.Future[HitlDecision] = asyncio.get_running_loop().create_future()
         iid = incident.incident_id
         self._pending[iid] = fut
-        self._briefs[iid] = build_brief(
+        brief = build_brief(
             incident=incident, plan=plan, sandbox=sandbox, verdict=verdict,
             triage=triage, expires_at=time.time() + self._ttl_s)
+        self._briefs[iid] = brief
         self._contexts[iid] = {"incident": incident, "triage": triage,
                                "durable_fix": plan.durable_fix}
+        get_incident_ledger().record_event(
+            incident_id=iid,
+            event_type="HITL_REQUESTED",
+            actor="approval-gate",
+            payload={
+                "title": incident.title,
+                "mitigation": plan.mitigation.action.value,
+                "expires_at": brief["expires_at"],
+            },
+        )
         try:
             return await asyncio.wait_for(fut, timeout=self._ttl_s)
         except asyncio.TimeoutError:
             # Unanswered != wait forever: expiry escalates (PagerDuty model).
-            return HitlDecision(choice=HitlChoice.expired, decided_by="ttl")
+            decision = HitlDecision(choice=HitlChoice.expired, decided_by="ttl")
+            get_incident_ledger().record_event(
+                incident_id=iid,
+                event_type="HITL_EXPIRED",
+                actor="system-ttl",
+                payload={"choice": "expired"},
+            )
+            return decision
         finally:
             self._pending.pop(iid, None)
             self._briefs.pop(iid, None)
@@ -71,7 +90,32 @@ class ApprovalGate:
     def get_context(self, incident_id: str) -> dict | None:
         return self._contexts.get(incident_id)
 
-    def resolve(self, incident_id: str, choice: HitlChoice, note: str | None = None) -> None:
+    def get_brief(self, incident_id: str) -> dict | None:
+        return self._briefs.get(incident_id)
+
+    def resolve(self, incident_id: str, choice: HitlChoice, decided_by: str = "local-ui", note: str | None = None) -> None:
         fut = self._pending.get(incident_id)
         if fut and not fut.done():
-            fut.set_result(HitlDecision(choice=choice, note=note))
+            get_incident_ledger().record_event(
+                incident_id=incident_id,
+                event_type="HITL_DECIDED",
+                actor=decided_by,
+                payload={"choice": choice.value, "decided_by": decided_by, "note": note},
+            )
+            fut.set_result(HitlDecision(choice=choice, decided_by=decided_by, note=note))
+
+
+_GATE: ApprovalGate | None = None
+
+
+def get_approval_gate() -> ApprovalGate:
+    global _GATE
+    if _GATE is None:
+        _GATE = ApprovalGate()
+    return _GATE
+
+
+def set_approval_gate(gate: ApprovalGate) -> None:
+    global _GATE
+    _GATE = gate
+

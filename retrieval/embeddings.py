@@ -18,4 +18,4 @@ def get_embedder():
 
 def embed_texts(texts: list[str]) -> list[list[float]]:
     model = get_embedder()
-    return model.encode(texts, normalize_embeddings=True).tolist()
+    return model.encode(texts, normalize_embeddings=True, show_progress_bar=False).tolist()

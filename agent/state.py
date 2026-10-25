@@ -5,9 +5,9 @@ from __future__ import annotations
 from enum import Enum
 from typing import TypedDict
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
-from agent.actions import ActionType, ProposedAction
+from agent.actions import ActionType, BlastRadius, ProposedAction
 from retrieval.models import RetrievedChunk
 from stream.schema import FaultKind, IncidentEvent
 
@@ -17,6 +17,11 @@ class TriageResult(BaseModel):
     root_cause: str
     confidence: float = Field(ge=0.0, le=1.0)
     reasoning: str
+    what_broke: str | None = None
+    why_it_broke: str | None = None
+    what_changed_recently: str | None = None
+    blast_radius: BlastRadius = BlastRadius.low
+    affected_services: list[str] = Field(default_factory=list)
 
 
 class RemediationPlan(BaseModel):
@@ -24,6 +29,16 @@ class RemediationPlan(BaseModel):
 
     mitigation: ProposedAction
     durable_fix: ProposedAction | None = None
+    blast_radius: BlastRadius = BlastRadius.low
+    rollback_strategy: str | None = None
+    expected_impact: str | None = None
+
+    @field_validator("durable_fix", mode="before")
+    @classmethod
+    def _validate_durable_fix(cls, v):
+        if isinstance(v, str):
+            return None
+        return v
 
 
 class NodeUsage(BaseModel):
@@ -46,6 +61,16 @@ class SandboxResult(BaseModel):
     failure_reason: str | None = None
 
 
+class LiveVerificationResult(BaseModel):
+    """Post-remediation live telemetry assertion (AegisOps Slice 1)."""
+    passed: bool
+    fault_kind: FaultKind
+    before_metrics: dict[str, float] | None = None
+    after_metrics: dict[str, float] | None = None
+    duration_ms: float = 0.0
+    failure_reason: str | None = None
+
+
 class PolicyDecision(str, Enum):
     allow = "allow"
     needs_approval = "needs_approval"
@@ -56,6 +81,8 @@ class PolicyVerdict(BaseModel):
     decision: PolicyDecision
     violated_rules: list[str] = Field(default_factory=list)
     reasons: list[str] = Field(default_factory=list)
+    blast_radius: BlastRadius = BlastRadius.low
+    risk_assessment: str | None = None
 
 
 class AttemptRecord(BaseModel):
@@ -92,12 +119,23 @@ class IncidentReport(BaseModel):
     attempted_actions: list[str] = Field(default_factory=list)
     durable_fix: ProposedAction | None = None
     triage_confidence: float | None = None
+    what_broke: str | None = None
+    why_it_broke: str | None = None
+    what_changed_recently: str | None = None
+    blast_radius: BlastRadius | None = None
+    affected_services: list[str] = Field(default_factory=list)
+    rollback_strategy: str | None = None
+    expected_impact: str | None = None
     retries: int = 0
     sandbox_passed: bool | None = None
     policy_decision: PolicyDecision | None = None
     hitl_choice: HitlChoice | None = None
     apply_error: str | None = None
     applied_target_file: str | None = None
+    live_verified: bool | None = None
+    live_metrics_before: dict[str, float] | None = None
+    live_metrics_after: dict[str, float] | None = None
+    rollback_performed: bool = False
     total_input_tokens: int = 0
     total_output_tokens: int = 0
     total_latency_ms: float = 0.0
@@ -118,6 +156,9 @@ class AgentState(TypedDict):
     hitl_decision: HitlDecision | None
     applied: bool
     apply_error: str | None
+    live_metrics_before: dict[str, float] | None
+    verification_result: LiveVerificationResult | None
+    rollback_performed: bool
     report: IncidentReport | None
     usage: list[NodeUsage]
 
@@ -129,5 +170,6 @@ def initial_state(incident: IncidentEvent, *, plan: RemediationPlan | None = Non
     return AgentState(
         incident=incident, triage=triage, retrieved_context=[], plan=plan,
         attempted=[], retries=0, sandbox_result=None, policy_verdict=None,
-        hitl_decision=None, applied=False, apply_error=None, report=None, usage=[],
+        hitl_decision=None, applied=False, apply_error=None, live_metrics_before=None,
+        verification_result=None, rollback_performed=False, report=None, usage=[],
     )

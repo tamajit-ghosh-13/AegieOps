@@ -14,8 +14,10 @@ from agent.nodes.policy import policy_node
 from agent.nodes.propose import propose_node
 from agent.nodes.report import report_node
 from agent.nodes.retrieve import retrieve_node
+from agent.nodes.rollback import rollback_node
 from agent.nodes.sandbox import sandbox_node
 from agent.nodes.triage import triage_node
+from agent.nodes.verify import verify_node
 from agent.state import AgentState, HitlChoice, PolicyDecision
 
 MAX_RETRIES = 2
@@ -46,6 +48,19 @@ def route_after_hitl(state: AgentState) -> str:
     return "report"
 
 
+def route_after_apply(state: AgentState) -> str:
+    if not state.get("applied"):
+        return "report"
+    return "verify"
+
+
+def route_after_verify(state: AgentState) -> str:
+    verif = state.get("verification_result")
+    if verif is None or verif.passed:
+        return "report"
+    return "rollback"
+
+
 def route_entry(state: AgentState) -> str:
     # Promoted durable-fix runs arrive with `plan` preset: skip straight to
     # empirical verification; everything else starts at triage.
@@ -62,6 +77,7 @@ def build_graph(
     applier,
     report_sink,
     registry,
+    verifier=None,
 ) -> CompiledStateGraph:
     g = StateGraph(AgentState)
     g.add_node("triage", partial(triage_node, llm=triage_llm))
@@ -70,7 +86,9 @@ def build_graph(
     g.add_node("sandbox", partial(sandbox_node, executor=executor))
     g.add_node("policy", partial(policy_node, engine=policy_engine))
     g.add_node("hitl", partial(hitl_node, gate=approval_gate))
-    g.add_node("apply", partial(apply_node, applier=applier, engine=policy_engine))
+    g.add_node("apply", partial(apply_node, applier=applier, engine=policy_engine, verifier=verifier))
+    g.add_node("verify", partial(verify_node, verifier=verifier, applier=applier))
+    g.add_node("rollback", partial(rollback_node, applier=applier))
     g.add_node("report", partial(report_node, sink=report_sink, registry=registry))
 
     g.add_conditional_edges(START, route_entry, {"triage": "triage", "sandbox": "sandbox"})
@@ -93,6 +111,14 @@ def build_graph(
         "report": "report",
     })
 
-    g.add_edge("apply", "report")
+    g.add_conditional_edges("apply", route_after_apply, {
+        "verify": "verify",
+        "report": "report",
+    })
+    g.add_conditional_edges("verify", route_after_verify, {
+        "report": "report",
+        "rollback": "rollback",
+    })
+    g.add_edge("rollback", "report")
     g.add_edge("report", END)
     return g.compile()

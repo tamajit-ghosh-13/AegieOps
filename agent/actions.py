@@ -13,6 +13,7 @@ class ActionType(str, Enum):
     rollback = "rollback"
     toggle_feature_flag = "toggle_feature_flag"
     scale_out = "scale_out"
+    drain_connections = "drain_connections"
     patch_code = "patch_code"
     escalate = "escalate"
 
@@ -40,6 +41,8 @@ CATALOG: MappingProxyType[ActionType, ActionMetadata] = MappingProxyType({
     ActionType.toggle_feature_flag: ActionMetadata(
         blast_radius=BlastRadius.low, reversible=True, requires_approval=False),
     ActionType.scale_out: ActionMetadata(
+        blast_radius=BlastRadius.low, reversible=True, requires_approval=False),
+    ActionType.drain_connections: ActionMetadata(
         blast_radius=BlastRadius.low, reversible=True, requires_approval=False),
     ActionType.patch_code: ActionMetadata(
         blast_radius=BlastRadius.high, reversible=False, requires_approval=True),

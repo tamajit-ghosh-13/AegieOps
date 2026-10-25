@@ -207,6 +207,11 @@ class SandboxExecutor:
         if action.action is ActionType.rollback:
             container.remove(force=True)
             return self._start_app({"APP_VERSION": "previous"})
+        if action.action is ActionType.drain_connections:
+            httpx.post(
+                f"{base_url}/connections/drain", timeout=10
+            ).raise_for_status()
+            return container, base_url
         if action.action is ActionType.patch_code:
             self._copy_patched_file(container, action)
             return self._restart(container)

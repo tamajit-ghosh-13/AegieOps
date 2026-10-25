@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-dim": "#0f131c", "error-container": "#93000a", "secondary": "#4edea3", "on-error": "#690005", "on-primary-fixed-variant": "#003ea8", "on-tertiary": "#1000a9", "outline": "#8d90a0", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#4edea3", "inverse-primary": "#0053db", "secondary-container": "#00a572", "error": "#ffb4ab", "surface-tint": "#b4c5ff", "primary-fixed-dim": "#b4c5ff", "tertiary-container": "#585be6", "on-secondary-fixed-variant": "#005236", "on-tertiary-fixed-variant": "#2f2ebe", "on-tertiary-fixed": "#07006c", "surface-container-high": "#262a33", "tertiary-fixed": "#e1e0ff", "surface-container-highest": "#31353e", "on-tertiary-container": "#f1eeff", "on-surface": "#dfe2ee", "on-secondary-container": "#00311f", "inverse-surface": "#dfe2ee", "tertiary-fixed-dim": "#c0c1ff", "on-secondary": "#003824", "surface-bright": "#353942", "inverse-on-surface": "#2c3039", "surface-variant": "#31353e", "on-surface-variant": "#c3c6d7", "surface-container-low": "#181c24", "on-primary": "#002a78", "primary": "#b4c5ff", "surface": "#0f131c", "background": "#0f131c", "on-secondary-fixed": "#002113", "secondary-fixed": "#6ffbbe", "on-primary-fixed": "#00174b", "surface-container-lowest": "#0a0e16", "tertiary": "#c0c1ff", "on-background": "#dfe2ee", "primary-container": "#2563eb", "surface-container": "#1c2028", "on-primary-container": "#eeefff", "primary-fixed": "#dbe1ff", "outline-variant": "#434655" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "0.75rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "1rem", "space-xs": "0.25rem", "gutter-desktop": "1.25rem", "margin-desktop": "2rem", "margin": "1rem", "space-lg": "1.25rem" }, "fontFamily": { "label-code-md": [ "JetBrains Mono" ], "badge-status": [ "JetBrains Mono" ], "label-code-sm": [ "JetBrains Mono" ], "headline-md": [ "Space Grotesk" ], "body-lg": [ "Inter" ], "body-sm": [ "Inter" ], "headline-lg": [ "Space Grotesk" ], "headline-xl": [ "Space Grotesk" ], "label-code-lg": [ "JetBrains Mono" ], "headline-sm": [ "Space Grotesk" ], "body-md": [ "Inter" ] }, "fontSize": { "label-code-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "badge-status": [ "10px", { "lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700" } ], "label-code-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" } ], "headline-md": [ "18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-lg": [ "15px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" } ], "body-sm": [ "12px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" } ], "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-xl": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-code-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "headline-sm": [ "15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" } ], "body-md": [ "13px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30"><div class="h-16 px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-md"><img alt="AegisOps Shield Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W_iReq_XA-DKmLzkGVMZQkxJ4N79C5OZcl3aW_DfkpPv11O44_O1eaY0zatGjTi5ODsuwQhZozra8Fky-gcuPycE95e8rWxR8tEMyRCuU42p4DG3XL0p1rytQnJiun3G5bMRQ1VMEHaxjEIau5SfekNnZ5O-9usKF3P8ejYT31O-sb5hBlMsUQUKsesOX3uj13xI8Gg00vDSZDsC8fnKkSeBpSMKmFJ4T_ejeZUr9y8CCh9xKGXhQ0HTI4"/><div class="flex items-baseline gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-tight text-on-surface">AegisOps</span><span class="font-badge-status text-badge-status px-1.5 py-0.5 rounded bg-surface-container-high text-primary tracking-widest uppercase">AUTONOMOUS AGENTIC SRE</span></div></div><div class="hidden xl:flex items-center gap-2 px-space-md py-1 rounded-full bg-secondary-container/20"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-badge-status text-badge-status text-secondary tracking-widest uppercase">ALL SYSTEMS STABLE</span></div></div><nav class="flex items-center gap-space-xs p-1 rounded-lg bg-surface-container" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm text-headline-sm shadow-sm"><a class="px-space-md py-1.5 rounded-md font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="command-center" href="#">Command Center</a><a class="px-space-md py-1.5 rounded-md font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="incident-investigation" href="#">Incident Investigation</a><a class="px-space-md py-1.5 rounded-md font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="immutable-audit-ledger" href="#">Immutable Audit Ledger</a><a aria-current="page" class="px-space-md py-1.5 rounded-md transition-all bg-primary-container text-on-primary-container font-headline-sm text-headline-sm shadow-sm" data-path="team-and-rbac-policies" href="#">Team &amp; RBAC Policies</a></nav><div class="flex items-center gap-space-md"><div class="hidden md:flex flex-col text-right"><span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Sam Chen</span><span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Principal SRE • team-core-infra</span></div><div class="relative flex items-center gap-space-sm bg-surface-container-high px-space-sm py-1 rounded-lg"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-primary/40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGzDywReCcKoYKxbv0A9bL6_YaL8IPgpjZh3fazX5YFzEZyKFw_M828TVnMh0ewzVy8qWT9kEuMilkadB3CcDLGLQdwUXOKVEmwmZDMrbP4HZMRpcBTYIrYweTAZU6lB-T2AvxDdaLlfzIPuuKHdYJOLs3P2gBc8f0C2C1PxpvxDm5Xzivwz4lnTDaHplb07g1rZEPEvsc4J_RjtOJPd2RMEATq_eb49jpeJIRa7YMjQUyllnGhPgFsg"/><select aria-label="Active Role" class="bg-transparent font-label-code-sm text-label-code-sm text-secondary focus:outline-none cursor-pointer pr-1"><option class="bg-surface-container-high text-on-surface" value="responder">Responder</option><option class="bg-surface-container-high text-on-surface" value="admin">Admin</option><option class="bg-surface-container-high text-on-surface" value="viewer">Viewer</option></select></div></div></div><div class="h-10 px-gutter bg-surface-container-low border-b border-outline-variant/20 flex items-center justify-between gap-space-md overflow-x-auto"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-tertiary">biotech</span><span class="font-label-code-sm text-label-code-sm uppercase tracking-wider text-on-surface">Chaos &amp; Anomaly Injection Suite:</span><span class="font-body-sm text-body-sm text-on-surface-variant hidden lg:inline">Test autonomous closed-loop detection &amp; remediation</span></div></div><div class="flex items-center gap-space-sm shrink-0"><button class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-code-sm text-label-code-sm hover:bg-surface-bright hover:text-on-surface flex items-center gap-1 transition-all" type="button"><span class="text-tertiary-fixed">⚡</span> Traffic Surge</button><button class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-code-sm text-label-code-sm hover:bg-surface-bright hover:text-on-surface flex items-center gap-1 transition-all" type="button"><span class="text-error">🔒</span> DB Deadlock</button><button class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-code-sm text-label-code-sm hover:bg-surface-bright hover:text-on-surface flex items-center gap-1 transition-all" type="button"><span class="text-error">🔥</span> Memory Leak</button><button class="px-space-sm py-1 rounded bg-surface-container text-secondary font-label-code-sm text-label-code-sm hover:bg-secondary-container hover:text-on-secondary-container flex items-center gap-1 transition-all" type="button"><span class="text-secondary">↺</span> Reset All &amp; Normalize</button></div></div><div class="h-10 px-gutter bg-surface-container-lowest/80 border-b border-outline-variant/15 flex items-center justify-between gap-space-md text-on-surface-variant overflow-x-auto font-label-code-sm text-label-code-sm"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-xs"><span class="text-on-surface-variant">P95 LATENCY:</span><span class="text-on-surface font-headline-sm text-headline-sm">48.2ms</span><span class="text-secondary font-badge-status text-badge-status">(SLO ≤100ms)</span><span class="text-secondary">∿∿</span></div><div class="flex items-center gap-space-xs"><span class="text-on-surface-variant">ERROR RATE:</span><span class="text-secondary font-headline-sm text-headline-sm">0.00%</span><span class="text-on-surface-variant font-badge-status text-badge-status">(SLO ≤0.5%)</span></div><div class="flex items-center gap-space-xs"><span class="text-on-surface-variant">MEMORY RSS:</span><span class="text-on-surface font-headline-sm text-headline-sm">8.4MB / 128MB</span></div><div class="flex items-center gap-space-xs"><span class="text-on-surface-variant">DB LOCK WAIT:</span><span class="text-secondary font-headline-sm text-headline-sm">0ms</span><span class="text-on-surface-variant font-badge-status text-badge-status">(Pool Healthy)</span></div></div><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-xs"><span class="text-on-surface-variant">AGENT RUNTIME:</span><span class="text-primary font-label-code-sm text-label-code-sm">Closed-Loop Active (v2.4.1 - Gemini-Reasoner)</span></div><div class="flex items-center gap-space-xs"><span class="text-on-surface-variant">PENDING APPROVALS:</span><span class="text-secondary font-headline-sm text-headline-sm">0 HITL Gates</span><span class="text-on-surface-variant font-badge-status text-badge-status">(Auto Low/Med risk)</span></div></div></div></header><aside class="fixed left-0 top-36 h-[calc(100vh-9rem)] w-64 bg-surface-container-low border-r border-outline-variant/20 z-40 flex flex-col justify-between py-space-md"><div class="px-space-md"><div class="px-space-md pb-space-md mb-space-sm border-b border-outline-variant/15"><span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-outline">Telemetry Streams</span></div><nav class="space-y-1" data-active-classes="bg-surface-container-high text-on-surface font-headline-sm text-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="command-center" href="#"><span class="material-symbols-outlined text-[18px]">radar</span>Live Mesh Topology</a><a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="incident-investigation" href="#"><span class="material-symbols-outlined text-[18px]">crisis_alert</span>Incident War Room</a><a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="immutable-audit-ledger" href="#"><span class="material-symbols-outlined text-[18px]">verified</span>Remediation Ledger</a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2 rounded-lg transition-colors bg-surface-container-high text-on-surface font-headline-sm text-headline-sm" data-path="team-and-rbac-policies" href="#"><span class="material-symbols-outlined text-[18px]">shield_person</span>HITL &amp; Guardrails</a></nav></div><div class="px-space-md"><div class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant/20 space-y-2"><div class="flex items-center justify-between text-on-surface-variant font-label-code-sm text-label-code-sm"><span>AUTONOMIC STATE</span><span class="text-secondary">HEALTHY</span></div><div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full w-[99.8%]"></div></div><div class="flex items-center justify-between text-on-surface-variant font-badge-status text-badge-status"><span>CYCLE FREQ: 250ms</span><span>UPTIME 99.998%</span></div></div></div></aside><div class="pl-64"><main class="relative pt-36 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-gutter-desktop space-y-gutter-desktop max-w-[1720px] mx-auto w-full">
+<!-- Header Section with Multi-Tenant Switcher & Zero-Trust Status Banner -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-wrap items-start justify-between gap-space-md">
+<div class="space-y-space-xs max-w-3xl">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">admin_panel_settings</span>
+<span class="font-badge-status text-badge-status px-2 py-0.5 rounded bg-surface-container text-primary uppercase tracking-widest">RBAC / HITL BOUNDARY v4.2</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> ENFORCED
+            </span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Team Members &amp; RBAC Safety Guardrails</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Multi-tenant team permissions, autonomous execution authority tiers, and Human-In-The-Loop (HITL) blast-radius boundaries for closed-loop self-healing agents.
+          </p>
+</div>
+<!-- Tenant Selector & Quick Action -->
+<div class="flex items-center gap-space-sm self-start sm:self-auto bg-surface-container-lowest p-1.5 rounded-lg">
+<div class="flex items-center gap-space-xs px-space-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary">hub</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase tracking-wider">Tenant:</span>
+</div>
+<select aria-label="Tenant Switcher" class="bg-surface-container font-label-code-md text-label-code-md text-primary px-space-md py-1.5 rounded focus:outline-none cursor-pointer" id="tenantSelect">
+<option selected="" value="team-core-infra">team-core-infra (Primary Mesh)</option>
+<option value="team-checkout-payments">team-checkout-payments</option>
+<option value="team-data-platform">team-data-platform</option>
+<option value="team-identity">team-identity</option>
+</select>
+<button class="px-space-md py-1.5 bg-primary-container text-on-primary-container font-headline-sm text-headline-sm rounded hover:brightness-110 transition-all flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">add_moderator</span>
+<span class="hidden sm:inline">Grant Policy</span>
+</button>
+</div>
+</div>
+<!-- Autonomous Safety Policy Ribbon -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-code-sm text-label-code-sm text-outline uppercase block">Active Autonomous Policy</span>
+<span class="font-body-md text-body-md text-on-surface truncate block">
+<strong class="text-secondary font-medium">Zero-Trust Autonomous Execution Active:</strong> Low/Medium Blast Radius actions authorized automatically; High Blast Radius actions require Dual-Key SRE Approval.
+            </span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg shrink-0">
+<div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm">
+<span class="text-outline">FAILSAFE LEVEL:</span>
+<span class="text-on-surface font-headline-sm text-headline-sm px-1.5 py-0.5 rounded bg-surface-container-high">L3 DUAL-KEY</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm">
+<span class="text-outline">AUTONOMOUS LATENCY:</span>
+<span class="text-secondary font-headline-sm text-headline-sm">0ms Low / 30s Med</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Tiered Persona & Role Cards Bento Row -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-desktop items-stretch">
+<!-- Card 1: Alex Rivers (ADMIN) -->
+<article class="bg-surface-container-low rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative group hover:bg-surface-container transition-all duration-200">
+<div class="space-y-space-md">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Cybernetic high-tech avatar portrait of female platform architect Alex Rivers with subtle augmented reality glasses, neon blue reflections, obsidian dark aesthetic, deep space lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDorHP9Q71DFHIyFhXy4tnI7EsGmFNyVsEfQPeJYqB3iK9E4c2t-XXN6dnaOOqRVl_jSjg8iVVphD4SniqrVhPUtHq8a60Y4MQGNn8q7oKgCJXm-Oxa4C_ocEPeip3MIh_JpeAtIDHQIByHA5FnXtoot_UiEicQEI_whqXGnh-Jrw3C1eDR_4S5QpiXnp-PY1h8zHFvvdDk3y9Hwp6a9ycr0Sm7V9ZmhpMDWnofMgCGIOTkrJSnYjkMVg"/>
+<span class="w-3 h-3 rounded-full bg-outline absolute -bottom-0.5 -right-0.5 ring-2 ring-surface-container-low" title="Standby / Secondary"></span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface leading-snug">Alex Rivers</h3>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-mono">admin@aegisops.io</span>
+</div>
+</div>
+<span class="font-badge-status text-badge-status px-2 py-0.5 rounded bg-surface-container-high text-primary tracking-widest uppercase">
+              ADMIN
+            </span>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-outline uppercase tracking-wider block">Authorized Execution Scope</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-error/15 text-error">High Blast Radius Sign-off</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-primary/10 text-primary">LLM Prompt &amp; Guardrail Tuning</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">RBAC Policy Authoring</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-secondary/15 text-secondary">Full Autonomic Override</span>
+</div>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-lowest space-y-1.5 font-label-code-sm text-label-code-sm">
+<div class="flex justify-between text-on-surface-variant">
+<span>Dual-Key Sign-off Key:</span>
+<span class="text-primary font-mono font-medium">ED25519-9B21...7C</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Audit Quorum Weight:</span>
+<span class="text-on-surface">2.0 (Supermajority)</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Status:</span>
+<span class="text-outline">Standby • PagerDuty Primed</span>
+</div>
+</div>
+</div>
+<div class="pt-space-lg">
+<button class="w-full py-2.5 px-space-md rounded-lg bg-surface-container-high text-on-surface font-headline-sm text-headline-sm hover:bg-surface-bright transition-all flex items-center justify-center gap-2" onclick="switchPersona('Alex Rivers', 'ADMIN', 'admin@aegisops.io')" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">swap_horiz</span>
+<span>Switch to Admin Persona</span>
+</button>
+</div>
+</article>
+<!-- Card 2: Sam Chen (SRE RESPONDER) - CURRENT ACTIVE IDENTITY -->
+<article class="bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-md relative group bg-gradient-to-b from-primary/10 via-surface-container to-surface-container">
+<!-- Top Glow Strip -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-t-xl"></div>
+<div class="space-y-space-md">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary" data-alt="Futuristic cybernetic engineer Sam Chen looking sharp, holographic cyan terminal reflections, wearing sleek operations dark tactical vest, dark-mode cockpit background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi4hXBAZi5dpP2WZS9LoYtClLPJms1xeVcbZb8PLjGOAI2xaoMKAnWSh8RBoYB9Ktz88OztBfihLcGiMbPPs-Q-hfy3cNwNAGBRSn4rtpeEn56A7iaYWE_4gQCjA7OgS6ueESo8JWB0_WLVmzH4hyr2fxtRB02yoqhOGzY66P5rW5V68T2UBFzr2yRVOhu8NSR0MyTwAmi1YY4dOfQ1IztcEamu9DMH19tHZdTRgPXdGzSGfegDlNrnA"/>
+<span class="w-3 h-3 rounded-full bg-secondary absolute -bottom-0.5 -right-0.5 ring-2 ring-surface-container animate-pulse" title="Active Live Session"></span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-lg text-headline-lg text-on-surface leading-snug">Sam Chen</h3>
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-mono">sre@aegisops.io</span>
+</div>
+</div>
+<span class="font-badge-status text-badge-status px-2 py-0.5 rounded bg-primary-container text-on-primary-container tracking-widest uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> RESPONDER
+            </span>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-outline uppercase tracking-wider block">Authorized Execution Scope</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-secondary/15 text-secondary">Low/Med Blast Radius Autonomous</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-primary/15 text-primary">Chaos Injection Triggers</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Auto-Investigation Dispatch</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-tertiary/15 text-tertiary">Post-Mortem Synthesis Force</span>
+</div>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-lowest space-y-1.5 font-label-code-sm text-label-code-sm">
+<div class="flex justify-between text-on-surface-variant">
+<span>HITL Blast Boundary:</span>
+<span class="text-secondary font-semibold">Tier-2 Autonomous</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Dual-Key Escalation Key:</span>
+<span class="text-primary font-mono font-medium">ED25519-4A82...3D</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Active Session Token:</span>
+<span class="text-on-surface font-mono">JWT-EXP: 4h 12m</span>
+</div>
+</div>
+</div>
+<div class="pt-space-lg">
+<div class="w-full py-2.5 px-space-md rounded-lg bg-primary-container/20 text-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 cursor-default">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Current Active Identity</span>
+</div>
+</div>
+</article>
+<!-- Card 3: Jordan Lee (OBSERVABILITY VIEWER) -->
+<article class="bg-surface-container-low rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative group hover:bg-surface-container transition-all duration-200">
+<div class="space-y-space-md">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Minimalist portrait of site reliability observer Jordan Lee, glowing violet data visor, dark ambient server room background, technical realism" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRtbZtiCk_6gFcxhk7upjWxLMlVbTZQCE_sHalb-l1wrrN3CredeezIiB_CAU1XbZol3bhIT81QxqHyfiUw04fz4o9E8beGMeJcM2KkCIpi3Wy7bVvUeMuyTOdas8qvjd2isaqxJaEbNH2dIf1rysulQnjJFiub_BVaNArZcdl0sboWQGYsEn2SPbpwJ7j-7tdWhx7lQQ60in-_q1t6iB2ivtsDN1Kt6wraTjBtrSlEiLWkZbZ1N-yiA"/>
+<span class="w-3 h-3 rounded-full bg-secondary absolute -bottom-0.5 -right-0.5 ring-2 ring-surface-container-low" title="Online (Auditing)"></span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface leading-snug">Jordan Lee</h3>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-mono">viewer@aegisops.io</span>
+</div>
+</div>
+<span class="font-badge-status text-badge-status px-2 py-0.5 rounded bg-surface-container-high text-outline tracking-widest uppercase">
+              VIEWER
+            </span>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-outline uppercase tracking-wider block">Authorized Execution Scope</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Telemetry &amp; Metrics Stream</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Immutable Audit Ledger Review</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Post-Mortem Reports (Read-Only)</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-error/10 text-error">Execution Blocked</span>
+</div>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-lowest space-y-1.5 font-label-code-sm text-label-code-sm">
+<div class="flex justify-between text-on-surface-variant">
+<span>Remediation Authority:</span>
+<span class="text-error font-medium">None (0.0 Blast Radius)</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Chaos Injection Suite:</span>
+<span class="text-outline">Disabled</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Live Mesh Telemetry:</span>
+<span class="text-secondary">Full Ingestion</span>
+</div>
+</div>
+</div>
+<div class="pt-space-lg">
+<button class="w-full py-2.5 px-space-md rounded-lg bg-surface-container-high text-on-surface font-headline-sm text-headline-sm hover:bg-surface-bright transition-all flex items-center justify-center gap-2" onclick="switchPersona('Jordan Lee', 'VIEWER', 'viewer@aegisops.io')" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">swap_horiz</span>
+<span>Switch to Viewer Persona</span>
+</button>
+</div>
+</article>
+</section>
+<!-- Autonomous Blast-Radius Policy Configurator & Guardrail Matrix -->
+<section class="bg-surface-container-low rounded-xl p-space-lg shadow-sm space-y-space-lg">
+<div class="flex flex-wrap items-center justify-between gap-space-md pb-space-sm border-b border-surface-container-high">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">tune</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Autonomous Blast-Radius Policy Matrix</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Configured guardrails dictating autonomic agent execution latency, dual-key human approval delays, and rollback fallbacks.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code-sm text-label-code-sm text-outline">AUTO-ENFORCEMENT:</span>
+<span class="font-badge-status text-badge-status px-2 py-0.5 rounded bg-secondary-container/20 text-secondary uppercase">
+            STRICT MODE (P99 SAFETY)
+          </span>
+</div>
+</div>
+<!-- Policy Risk Tier Rows -->
+<div class="space-y-space-md">
+<!-- Low Risk Action Tier -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-high transition-colors">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">restart_alt</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Low Risk Boundary</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-secondary/10 text-secondary font-medium">0 HITL Gate Delay</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Pod soft restart, flush Redis cache keys, cycle dead TCP workers, synthetic probe reload.
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg shrink-0 w-full md:w-auto justify-between md:justify-end">
+<div class="text-right">
+<span class="font-label-code-sm text-label-code-sm text-outline block">AUTHORIZATION</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-mono">100% Autonomic (No Human Gate)</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input aria-label="Toggle Low Risk Autonomous Execution" checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+<!-- Medium Risk Action Tier -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-high transition-colors">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">alt_route</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Medium Risk Boundary</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">30s Grace Cancellation Gate</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Horizontal worker autoscale (up to +20 nodes), drain canary traffic routes, scale read-replicas.
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg shrink-0 w-full md:w-auto justify-between md:justify-end">
+<div class="text-right">
+<span class="font-label-code-sm text-label-code-sm text-outline block">AUTHORIZATION</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-mono">Responder Notification + 30s Veto</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input aria-label="Toggle Medium Risk Autonomous Execution" checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- High Risk Action Tier -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-high transition-colors">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-error-container/40 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">lock_reset</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">High Risk Boundary (Disaster Recovery)</span>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-error-container/30 text-error font-medium">Strict Dual-Key Human Gate</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Primary database failover, schema migration rollback, BGP route reroute, multi-region evac.
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg shrink-0 w-full md:w-auto justify-between md:justify-end">
+<div class="text-right">
+<span class="font-label-code-sm text-label-code-sm text-outline block">AUTHORIZATION</span>
+<span class="font-label-code-sm text-label-code-sm text-error font-mono">Dual SRE Sign-Off Required</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input aria-label="Strict Dual-Key Human Gate locked" checked="" class="sr-only peer" disabled="" type="checkbox"/>
+<div class="w-11 h-6 bg-error-container/80 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 opacity-90 cursor-not-allowed"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Live Policy Change & Permission Audit Ledger -->
+<div class="pt-space-md space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-outline text-[18px]">history_toggle_off</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Policy &amp; Identity Audit Trail (Past 24 Hours)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Immutable SHA-256 Ledger</span>
+</div>
+<div class="overflow-x-auto rounded-lg bg-surface-container-lowest">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-surface-container-high/60 font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">
+<tr>
+<th class="py-2.5 px-space-md">Timestamp (UTC)</th>
+<th class="py-2.5 px-space-md">Actor</th>
+<th class="py-2.5 px-space-md">Event Description</th>
+<th class="py-2.5 px-space-md">Blast Radius</th>
+<th class="py-2.5 px-space-md">Hash Proof</th>
+<th class="py-2.5 px-space-md text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/30 font-label-code-sm text-label-code-sm text-on-surface">
+<tr class="hover:bg-primary-container/5 transition-colors">
+<td class="py-2 px-space-md text-on-surface-variant font-mono">2025-05-18 14:02:11</td>
+<td class="py-2 px-space-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-medium text-on-surface">Sam Chen</span>
+</td>
+<td class="py-2 px-space-md font-body-sm text-body-sm">Authorized 30s grace override for Canary route scale-up</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary">MEDIUM</span></td>
+<td class="py-2 px-space-md font-mono text-outline">0x8f2d...4a10</td>
+<td class="py-2 px-space-md text-right text-secondary font-medium">COMMITTED</td>
+</tr>
+<tr class="hover:bg-primary-container/5 transition-colors">
+<td class="py-2 px-space-md text-on-surface-variant font-mono">2025-05-18 11:24:45</td>
+<td class="py-2 px-space-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-medium text-on-surface">Alex Rivers</span>
+</td>
+<td class="py-2 px-space-md font-body-sm text-body-sm">Promoted tenant <code class="text-secondary font-mono">team-checkout-payments</code> to Dual-Key Policy</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-error/10 text-error">HIGH</span></td>
+<td class="py-2 px-space-md font-mono text-outline">0x14bc...e981</td>
+<td class="py-2 px-space-md text-right text-secondary font-medium">COMMITTED</td>
+</tr>
+<tr class="hover:bg-primary-container/5 transition-colors">
+<td class="py-2 px-space-md text-on-surface-variant font-mono">2025-05-18 09:15:30</td>
+<td class="py-2 px-space-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-medium text-on-surface">AegisOps Autonomic Agent</span>
+</td>
+<td class="py-2 px-space-md font-body-sm text-body-sm">Automated pod bounce on `cart-service-replica-3` (0 HITL delay)</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-secondary/10 text-secondary">LOW</span></td>
+<td class="py-2 px-space-md font-mono text-outline">0xec29...31f7</td>
+<td class="py-2 px-space-md text-right text-secondary font-medium">RESOLVED</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</div>
+<script>
+  function switchPersona(name, role, email) {
+    const banner = document.createElement('div');
+    banner.className = 'fixed bottom-6 right-6 z-50 bg-surface-container-highest text-on-surface px-4 py-3 rounded-xl shadow-2xl border-none flex items-center gap-3 animate-bounce';
+    banner.innerHTML = `
+      <span class="material-symbols-outlined text-secondary text-[24px]">switch_account</span>
+      <div>
+        <div class="font-headline-sm text-headline-sm">Switched to Persona: ${name} (${role})</div>
+        <div class="font-label-code-sm text-label-code-sm text-on-surface-variant">${email}</div>
+      </div>
+    `;
+    document.body.appendChild(banner);
+    setTimeout(() => {
+      banner.remove();
+    }, 3500);
+  }
+
+  document.getElementById('tenantSelect')?.addEventListener('change', function(e) {
+    const val = e.target.value;
+    const banner = document.createElement('div');
+    banner.className = 'fixed bottom-6 right-6 z-50 bg-surface-container-highest text-on-surface px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3';
+    banner.innerHTML = `
+      <span class="material-symbols-outlined text-primary text-[24px]">sync</span>
+      <div>
+        <div class="font-headline-sm text-headline-sm">Active Tenant Context Changed</div>
+        <div class="font-label-code-sm text-label-code-sm text-secondary">${val}</div>
+      </div>
+    `;
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 2500);
+  });
+</script></main></div></body></html>

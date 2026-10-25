@@ -3,9 +3,13 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
+from dotenv import load_dotenv
 import psycopg
 from pgvector.psycopg import register_vector
+
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 from retrieval.embeddings import EMBEDDING_DIM
 
