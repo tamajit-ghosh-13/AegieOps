@@ -900,9 +900,9 @@
     "semantic_hash": "4ff2fc7ceac6488072e2cf78734f01ec"
   },
   "README.md": {
-    "mtime": 1792954050.5615172,
-    "seen": 1792954078.882551,
-    "ast_hash": "f300a54420709ee2fbda19f8d2d4474a",
+    "mtime": 1792954979.1642084,
+    "seen": 1792954991.376547,
+    "ast_hash": "fe3e3a9f89097dbee77b30c98a5b4c46",
     "semantic_hash": ""
   },
   "docker-compose.yml": {
@@ -1251,6 +1251,12 @@
     "mtime": 1792914649.9317753,
     "seen": 1792915024.527158,
     "ast_hash": "c126c0c42c6babcd463b2df48b82403a",
+    "semantic_hash": ""
+  },
+  "assets/youtube_thumbnail.png": {
+    "mtime": 1792954947.0039499,
+    "seen": 1792954991.376553,
+    "ast_hash": "07f31c1a7f624b73903c0d26dc93a27f",
     "semantic_hash": ""
   }
 }

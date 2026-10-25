@@ -13,9 +13,15 @@
 
 [![AegisOps 5-Minute Live Walkthrough](assets/demo.gif)](https://youtu.be/f1HUg8EUny4?si=uHnBssdB9OlNqppL)
 
-▶ **[Watch the 5-Minute End-to-End Walkthrough on YouTube](https://youtu.be/f1HUg8EUny4?si=uHnBssdB9OlNqppL)** — complete live demo showcasing multi-signal ingestion, causal CI/CD attribution, Gemini 3.5 triage, ephemeral Docker sandboxing, Slack Block Kit ChatOps, 2-phase canary-soak verification, and live Merkle ledger tamper detection.
-
 *Above: AegisOps Cockpit (`http://localhost:8001`) in action — live Prometheus RED streaming, dynamic microservice topology, correlated deployment causal attribution (95% vs 35% confidence), and autonomous self-healing recovery.*
+
+---
+
+### 📺 5-Minute End-to-End Walkthrough on YouTube
+
+[![Watch AegisOps Full 5-Minute End-to-End Walkthrough on YouTube](assets/youtube_thumbnail.png)](https://www.youtube.com/watch?v=f1HUg8EUny4 "Click to watch AegisOps live demo on YouTube")
+
+> 🎬 **[Click the video preview above or this link to watch on YouTube](https://www.youtube.com/watch?v=f1HUg8EUny4)** — complete live demo showcasing multi-signal ingestion, causal CI/CD attribution, Gemini 3.5 triage, ephemeral Docker sandboxing, Slack Block Kit ChatOps, 2-phase canary-soak verification, and live Merkle ledger tamper detection.
 
 ---
 
